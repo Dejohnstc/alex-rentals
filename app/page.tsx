@@ -9,7 +9,7 @@ export default function Home() {
   // Generate tx_ref once
   const [tx_ref] = useState(() => "rent_" + crypto.randomUUID());
 
-  const amount = 56.6;
+  const amount = 54.00;
 
   const config = {
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY as string,
