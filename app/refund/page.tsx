@@ -1,23 +1,48 @@
 export default function Refund() {
   return (
-    <main className="max-w-2xl mx-auto p-6 text-sm">
-      <h1 className="text-xl font-semibold mb-4">Refund Policy</h1>
+    <main className="min-h-screen bg-white text-black px-6 py-12">
+      <div className="max-w-3xl mx-auto">
 
-      <p>
-        All rental application fees are strictly non-refundable.
-      </p>
+        <h1 className="text-3xl font-semibold mb-6">Refund Policy</h1>
 
-      <p className="mt-3">
-        This fee covers processing and evaluation of your application.
-      </p>
+        <p className="text-sm text-gray-600 mb-8">
+          Last updated: {new Date().getFullYear()}
+        </p>
 
-      <p className="mt-3">
-        Refunds are only issued in cases of duplicate or erroneous charges.
-      </p>
+        <section className="space-y-5 text-sm leading-relaxed">
 
-      <p className="mt-3">
-        Contact: alexsobieskki@gmail.com
-      </p>
+          <p>
+            All payments made for rental application fees are final and non-refundable.
+          </p>
+
+          <h2 className="text-lg font-semibold mt-6">Non-Refundable Fees</h2>
+          <p>
+            The application fee covers administrative costs associated with reviewing
+            and processing your rental application. Once submitted, this fee cannot be refunded.
+          </p>
+
+          <h2 className="text-lg font-semibold mt-6">Exceptions</h2>
+          <p>
+            Refunds may only be issued in cases of duplicate payments or verified
+            technical errors.
+          </p>
+
+          <h2 className="text-lg font-semibold mt-6">Processing Errors</h2>
+          <p>
+            If you believe you were charged incorrectly, please contact us immediately
+            so we can investigate the issue.
+          </p>
+
+          <h2 className="text-lg font-semibold mt-6">Contact</h2>
+          <p>
+            For refund-related inquiries, contact:
+            <br />
+            <strong>alexsobieskki@gmail.com</strong>
+          </p>
+
+        </section>
+
+      </div>
     </main>
   );
 }

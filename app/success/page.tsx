@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -9,6 +9,29 @@ function SuccessContent() {
 
   const status = params.get("status");
   const tx_ref = params.get("tx_ref");
+
+  const email = params.get("email");
+  const name = params.get("name");
+  const phone = params.get("phone");
+  const income = params.get("income");
+
+  useEffect(() => {
+    if (status === "successful") {
+      fetch("/api/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          income,
+          tx_ref,
+        }),
+      });
+    }
+  }, []);
 
   return (
     <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-8 text-center w-full max-w-md">
@@ -29,7 +52,7 @@ function SuccessContent() {
           <p className="text-xs break-all text-white mb-4">{tx_ref}</p>
 
           <p className="text-sm text-gray-400">
-            Please check your email for confirmation.
+            Your application has been submitted successfully.
           </p>
         </>
       )}
