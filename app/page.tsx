@@ -103,33 +103,108 @@ export default function Home() {
       <div className="relative max-w-6xl mx-auto px-6 py-16 space-y-24">
 
         {/* HERO */}
-        <section className="text-center space-y-6">
+        <section className="relative h-[90vh] flex items-center justify-center text-center overflow-hidden">
 
-          <h1 className="text-5xl md:text-6xl font-semibold leading-tight tracking-tight">
-            Secure Your Next Home <br />
-            <span className="text-[#9ca3af]">In Minutes</span>
-          </h1>
+  {/* 🔥 BACKGROUND IMAGE */}
+  <div className="absolute inset-0">
+    <div
+      className="w-full h-full bg-cover bg-center scale-110 animate-[zoom_20s_ease-in-out_infinite]"
+      style={{
+        backgroundImage: "url('/hero.jpg')" // 🔁 replace with your image
+      }}
+    />
+  </div>
 
-          <p className="text-[#9ca3af] max-w-2xl mx-auto text-lg">
-            Fast, secure rental applications trusted by tenants across the United States.
-          </p>
+  {/* DARK OVERLAY */}
+  <div className="absolute inset-0 bg-black/60" />
 
-          {/* TRUST STRIP */}
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-[#9ca3af]">
-            <span>🔒 Secure Checkout</span>
-            <span>✔ Verified Process</span>
-            <span>⚡ Fast Approval</span>
-          </div>
+  {/* GRADIENT DEPTH */}
+  <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/80" />
 
-          {/* CTA */}
-          <Link
-            href="/apply"
-            className="inline-block mt-4 bg-[#d4af37] text-black px-10 py-4 rounded-xl font-medium hover:bg-[#c9a531] transition active:scale-[0.98] shadow-lg shadow-[#d4af37]/10"
-          >
-            Start Application
-          </Link>
+  {/* LIGHT GLOW */}
+  <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#d4af37]/20 blur-[120px] rounded-full" />
 
-        </section>
+  {/* CONTENT */}
+  <div className="relative z-10 max-w-3xl px-6 space-y-6 animate-fadeInUp">
+
+    <h1 className="text-5xl md:text-6xl font-semibold leading-tight tracking-tight">
+      Secure Your Next Home <br />
+      <span className="text-[#d4af37]">In Minutes</span>
+    </h1>
+
+    <p className="text-gray-300 text-lg max-w-xl mx-auto">
+      Fast, secure rental applications trusted by tenants across the United States.
+    </p>
+
+    {/* TRUST BADGES */}
+    <div className="flex flex-wrap justify-center gap-3 text-sm mt-4">
+
+      <span className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        🔒 Secure Checkout
+      </span>
+
+      <span className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        ✔ Verified Process
+      </span>
+
+      <span className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        ⚡ Fast Approval
+      </span>
+
+    </div>
+
+    {/* CTA */}
+    <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+
+      <Link
+        href="/apply"
+        className="bg-[#d4af37] text-black px-10 py-4 rounded-xl font-medium hover:bg-[#c9a531] transition shadow-xl shadow-[#d4af37]/20 active:scale-[0.98]"
+      >
+        Start Application
+      </Link>
+
+      <a
+        href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
+        className="bg-white/10 backdrop-blur-md border border-white/20 px-10 py-4 rounded-xl hover:bg-white/20 transition"
+      >
+        Contact Agent
+      </a>
+
+    </div>
+
+  </div>
+
+  {/* SCROLL INDICATOR */}
+  <div className="absolute bottom-6 flex flex-col items-center text-xs text-gray-400 animate-bounce">
+    <span>Scroll</span>
+    <div className="w-[2px] h-6 bg-white/40 mt-1"></div>
+  </div>
+
+  {/* ANIMATIONS */}
+  <style jsx>{`
+    @keyframes zoom {
+      0% { transform: scale(1.1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1.1); }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `}</style>
+
+</section>
 
         {/* STATS */}
        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6">
