@@ -22,9 +22,11 @@ type Form = {
 };
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState<Form>({
     fullName: "",
-    phone: "",
+    phone: "+1",
     email: "",
     moveInDate: "",
     leaseTerm: "12",
@@ -47,8 +49,16 @@ export default function Home() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  // ✅ Auto enforce +1 phone format
+  const handlePhone = (value: string) => {
+    if (!value.startsWith("+1")) {
+      value = "+1" + value.replace(/\D/g, "");
+    }
+    update("phone", value);
+  };
+
   const isValidPhone =
-    form.phone.startsWith("+") && form.phone.length >= 10;
+    form.phone.startsWith("+1") && form.phone.length >= 11;
 
   const isValid =
     form.fullName &&
@@ -93,7 +103,6 @@ export default function Home() {
 
       <div className="max-w-xl mx-auto space-y-6">
 
-        {/* HEADER */}
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-semibold tracking-tight">
             Rental Application
@@ -103,44 +112,50 @@ export default function Home() {
           </p>
         </div>
 
-        {/* FORM CARD */}
         <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-xl space-y-6">
 
           <Section title="Applicant Information" />
 
-          <FloatingInput label="Full Name" onChange={(e) => update("fullName", e.target.value)} />
-          <FloatingInput label="Phone Number (+1XXXXXXXXXX)" onChange={(e) => update("phone", e.target.value)} />
-          <FloatingInput label="Email Address" onChange={(e) => update("email", e.target.value)} />
+          <FloatingInput label="Full Name" value={form.fullName} onChange={(e) => update("fullName", e.target.value)} />
 
-          <FloatingInput type="date" label="Move-in Date" onChange={(e) => update("moveInDate", e.target.value)} />
+          <FloatingInput
+            label="Phone Number (+1XXXXXXXXXX)"
+            value={form.phone}
+            onChange={(e) => handlePhone(e.target.value)}
+          />
 
-          <select onChange={(e) => update("leaseTerm", e.target.value)} className="input appearance-none">
+          <FloatingInput label="Email Address" value={form.email} onChange={(e) => update("email", e.target.value)} />
+
+          <FloatingInput type="date" label="Move-in Date" value={form.moveInDate} onChange={(e) => update("moveInDate", e.target.value)} />
+
+          <select value={form.leaseTerm} onChange={(e) => update("leaseTerm", e.target.value)} className="input">
             <option value="12">12 months</option>
             <option value="6">6 months</option>
             <option value="3">3 months</option>
           </select>
 
-          <FloatingInput label="Number of Occupants" onChange={(e) => update("occupants", e.target.value)} />
+          <FloatingInput label="Number of Occupants" value={form.occupants} onChange={(e) => update("occupants", e.target.value)} />
 
           <Section title="Rental History" />
 
-          <FloatingInput label="Landlord Name" onChange={(e) => update("landlordName", e.target.value)} />
-          <FloatingInput label="Landlord Phone" onChange={(e) => update("landlordPhone", e.target.value)} />
-          <FloatingInput label="Length of Tenancy" onChange={(e) => update("tenancyLength", e.target.value)} />
+          <FloatingInput label="Landlord Name" value={form.landlordName} onChange={(e) => update("landlordName", e.target.value)} />
+          <FloatingInput label="Landlord Phone" value={form.landlordPhone} onChange={(e) => update("landlordPhone", e.target.value)} />
+          <FloatingInput label="Length of Tenancy" value={form.tenancyLength} onChange={(e) => update("tenancyLength", e.target.value)} />
 
           <textarea
             placeholder="Reason for Leaving"
+            value={form.reasonLeaving}
             onChange={(e) => update("reasonLeaving", e.target.value)}
             className="input h-24"
           />
 
           <Section title="Employment & Financials" />
 
-          <FloatingInput label="Occupation / Employer" onChange={(e) => update("occupation", e.target.value)} />
-          <FloatingInput label="Estimated Monthly Income" onChange={(e) => update("income", e.target.value)} />
-          <FloatingInput label="Pets (type/breed if any)" onChange={(e) => update("pets", e.target.value)} />
+          <FloatingInput label="Occupation / Employer" value={form.occupation} onChange={(e) => update("occupation", e.target.value)} />
+          <FloatingInput label="Estimated Monthly Income" value={form.income} onChange={(e) => update("income", e.target.value)} />
+          <FloatingInput label="Pets (type/breed if any)" value={form.pets} onChange={(e) => update("pets", e.target.value)} />
 
-          <select onChange={(e) => update("evicted", e.target.value)} className="input appearance-none">
+          <select value={form.evicted} onChange={(e) => update("evicted", e.target.value)} className="input">
             <option value="No">No eviction history</option>
             <option value="Yes">Yes - explain</option>
           </select>
@@ -148,6 +163,7 @@ export default function Home() {
           {form.evicted === "Yes" && (
             <textarea
               placeholder="Explain eviction in detail"
+              value={form.evictionReason}
               onChange={(e) => update("evictionReason", e.target.value)}
               className="input h-24"
             />
@@ -161,17 +177,19 @@ export default function Home() {
             </p>
           </div>
 
+          {/* NOTICE */}
+          <p className="text-xs text-yellow-400 text-center">
+            Use a card that supports OTP (3D Secure). If your card fails, try another card or bank transfer.
+          </p>
+
           <FlutterWaveButton
             {...config}
-            text={
-              isValid
-                ? "Submit Application & Pay"
-                : "Enter valid details (phone must include +country code)"
-            }
-            callback={() => {}}
-            onClose={() => {}}
-            className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition-all"
-            disabled={!isValid}
+            text={loading ? "Processing..." : "Submit Application & Pay"}
+            callback={() => setLoading(false)}
+            onClose={() => setLoading(false)}
+            className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition-all disabled:opacity-50"
+            disabled={!isValid || loading}
+            
           />
 
           <p className="text-xs text-gray-500 text-center">
@@ -196,14 +214,13 @@ export default function Home() {
           background: rgba(255,255,255,0.04);
           border: 1px solid rgba(255,255,255,0.08);
           color: white;
-          transition: 0.2s;
+          transition: all 0.2s ease;
         }
 
         .input:focus {
           outline: none;
-          border-color: rgba(255,255,255,0.25);
-          background: rgba(255,255,255,0.06);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
+          border-color: rgba(255,255,255,0.3);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
         }
       `}</style>
 
@@ -211,7 +228,7 @@ export default function Home() {
   );
 }
 
-/* ---------- COMPONENTS ---------- */
+/* COMPONENTS */
 
 function Section({ title }: { title: string }) {
   return (
@@ -223,21 +240,20 @@ function Section({ title }: { title: string }) {
 
 function FloatingInput({
   label,
+  value,
   ...props
 }: {
   label: string;
+  value?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const hasValue = value && value.length > 0;
+
   return (
     <div className="relative">
-      <input {...props} placeholder=" " className="input peer" />
+      <input {...props} value={value} className="input" />
       <label
-        className="absolute left-3 top-3 text-gray-400 text-sm transition-all
-        peer-placeholder-shown:top-3
-        peer-placeholder-shown:text-sm
-        peer-focus:-top-2
-        peer-focus:text-xs
-        peer-focus:text-white
-        -top-2 text-xs bg-[#050505] px-1"
+        className={`absolute left-3 px-1 text-gray-400 transition-all bg-[#050505]
+        ${hasValue ? "-top-2 text-xs text-white" : "top-3 text-sm"}`}
       >
         {label}
       </label>
