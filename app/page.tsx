@@ -75,26 +75,39 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#0f1115] text-white overflow-hidden">
       {/* NAVBAR */}
-<div className="sticky top-0 z-50 bg-[#3a2f25] border-b border-white/10 px-6 py-3 flex items-center justify-between">
+<div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-[#3a2f25]/80 border-b border-white/10">
 
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
-      AS
+  <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+
+    {/* LEFT */}
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
+        AS
+      </div>
+
+      <div className="leading-tight">
+        <p className="text-[10px] text-gray-300 tracking-widest">
+          REDFIN PRINCIPAL AGENT
+        </p>
+        <p className="font-semibold text-sm">
+          Alex Sobieski
+        </p>
+      </div>
     </div>
 
-    <div>
-      <p className="text-xs text-gray-300">REDFIN PRINCIPAL AGENT</p>
-      <p className="font-semibold">Alex Sobieski</p>
+    {/* RIGHT */}
+    <div className="flex items-center gap-3">
+
+      <a
+        href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
+        className="hidden sm:inline-block text-sm text-gray-300 hover:text-white transition"
+      >
+        Get In Touch
+      </a>
+
     </div>
+
   </div>
-
-  <a
-  href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying for a rental property.%0D%0A%0D%0AThank you."
-  className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
->
-  Get in Touch
-</a>
-
 </div>
 
       {/* BACKGROUND (MATURE GRADIENT) */}
