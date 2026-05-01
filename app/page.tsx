@@ -219,16 +219,43 @@ export default function Home() {
         </div>
       </div>
 
-      <style jsx>{`
-        .input {
-          width: 100%;
-          padding: 12px;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: white;
-        }
-      `}</style>
+    <style jsx>{`
+  .input {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    color: white;
+    font-size: 14px;
+
+    backdrop-filter: blur(8px);
+
+    transition: all 0.25s ease;
+  }
+
+  .input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .input:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: white;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  }
+    .input:focus {
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.15),
+    0 10px 30px rgba(0,0,0,0.4);
+}
+`}</style>
     </main>
   );
 }
@@ -240,12 +267,29 @@ type FieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
 };
 
-function Field({ label, error, ...props }: FieldProps) {
+function Field({
+  label,
+  error,
+  ...props
+}: {
+  label: string;
+  error?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <div>
-      <label className="text-xs text-gray-400">{label}</label>
-      <input {...props} className="input mt-1" />
-      {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
+    <div className="space-y-2">
+      <label className="text-sm text-gray-300 font-medium">
+        {label}
+      </label>
+
+      <input
+        {...props}
+        placeholder={label}
+        className="input"
+      />
+
+      {error && (
+        <p className="text-red-400 text-xs">{error}</p>
+      )}
     </div>
   );
 }
