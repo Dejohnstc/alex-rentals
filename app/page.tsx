@@ -77,24 +77,29 @@ export default function Home() {
       {/* NAVBAR */}
 <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-[#3a2f25]/80 border-b border-white/10">
 
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
-      AS
+  <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+
+    {/* LEFT */}
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
+        AS
+      </div>
+
+      <div>
+        <p className="text-xs text-gray-300">REDFIN PRINCIPAL AGENT</p>
+        <p className="font-semibold">Alex Sobieski</p>
+      </div>
     </div>
 
-    <div>
-      <p className="text-xs text-gray-300">REDFIN PRINCIPAL AGENT</p>
-      <p className="font-semibold">Alex Sobieski</p>
-    </div>
+    {/* RIGHT */}
+    <a
+      href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
+      className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
+    >
+      Get in Touch
+    </a>
+
   </div>
-
-  <a
-  href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying for a rental property.%0D%0A%0D%0AThank you."
-  className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
->
-  Get in Touch
-</a>
-
 </div>
 
       {/* BACKGROUND (MATURE GRADIENT) */}
