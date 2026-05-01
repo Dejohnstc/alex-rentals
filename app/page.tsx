@@ -22,7 +22,6 @@ type Form = {
 };
 
 export default function Home() {
-
   const [form, setForm] = useState<Form>({
     fullName: "",
     phone: "",
@@ -48,10 +47,14 @@ export default function Home() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  const isValidPhone =
+    form.phone.startsWith("+") && form.phone.length >= 10;
+
   const isValid =
     form.fullName &&
     form.email &&
     form.phone &&
+    isValidPhone &&
     form.occupation &&
     form.income;
 
@@ -62,134 +65,145 @@ export default function Home() {
     tx_ref,
     amount,
     currency: "USD",
-    payment_options: "card",
+    payment_options: "card,applepay,banktransfer,ussd,alipay",
 
     customer: {
       email: form.email,
       name: form.fullName,
-      phone_number: form.phone || "0000000000",
+      phone_number: form.phone,
     },
 
-    redirect_url: `https://alex-rentals.live/success?tx_ref=${tx_ref}&name=${encode(form.fullName)}&email=${encode(form.email)}&phone=${encode(form.phone)}&income=${encode(form.income)}&occupation=${encode(form.occupation)}`,
+    redirect_url: `https://alex-rentals.live/success?tx_ref=${tx_ref}&name=${encode(
+      form.fullName
+    )}&email=${encode(form.email)}&phone=${encode(
+      form.phone
+    )}&income=${encode(form.income)}&occupation=${encode(
+      form.occupation
+    )}`,
 
-    // ✅ FIXED HERE
     customizations: {
       title: "Rental Application Fee",
       description: "Apartment Screening",
-      logo: "https://alex-rentals.live/logo.png", // 🔥 replace later if needed
+      logo: "https://alex-rentals.live/logo.png",
     },
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-[#0a0a0a] to-[#111111] px-4 py-10 text-white">
+    <main className="min-h-screen bg-gradient-to-br from-[#050505] via-[#0b0b0b] to-black px-4 py-10 text-white">
 
-      <div className="max-w-xl mx-auto backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-6">
+      <div className="max-w-xl mx-auto space-y-6">
 
-        <h1 className="text-xl font-semibold mb-6 text-center">
-          Rental Application
-        </h1>
+        {/* HEADER */}
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Rental Application
+          </h1>
+          <p className="text-gray-400 text-sm">
+            Complete your application and secure your spot
+          </p>
+        </div>
 
-        <div className="space-y-4">
+        {/* FORM CARD */}
+        <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-xl space-y-6">
 
           <Section title="Applicant Information" />
 
-          <Input placeholder="Full Name" onChange={(e) => update("fullName", e.target.value)} />
-          <Input placeholder="Phone Number" onChange={(e) => update("phone", e.target.value)} />
-          <Input placeholder="Email Address" onChange={(e) => update("email", e.target.value)} />
+          <FloatingInput label="Full Name" onChange={(e) => update("fullName", e.target.value)} />
+          <FloatingInput label="Phone Number (+1XXXXXXXXXX)" onChange={(e) => update("phone", e.target.value)} />
+          <FloatingInput label="Email Address" onChange={(e) => update("email", e.target.value)} />
 
-          <Input type="date" onChange={(e) => update("moveInDate", e.target.value)} />
+          <FloatingInput type="date" label="Move-in Date" onChange={(e) => update("moveInDate", e.target.value)} />
 
-          <select
-            onChange={(e) => update("leaseTerm", e.target.value)}
-            className="input bg-transparent text-white"
-          >
-            <option value="12" className="bg-black">12 months</option>
-            <option value="6" className="bg-black">6 months</option>
-            <option value="3" className="bg-black">3 months</option>
+          <select onChange={(e) => update("leaseTerm", e.target.value)} className="input appearance-none">
+            <option value="12">12 months</option>
+            <option value="6">6 months</option>
+            <option value="3">3 months</option>
           </select>
 
-          <Input placeholder="Number of Occupants" onChange={(e) => update("occupants", e.target.value)} />
+          <FloatingInput label="Number of Occupants" onChange={(e) => update("occupants", e.target.value)} />
 
           <Section title="Rental History" />
 
-          <Input placeholder="Landlord Name" onChange={(e) => update("landlordName", e.target.value)} />
-          <Input placeholder="Landlord Phone" onChange={(e) => update("landlordPhone", e.target.value)} />
-          <Input placeholder="Length of Tenancy" onChange={(e) => update("tenancyLength", e.target.value)} />
+          <FloatingInput label="Landlord Name" onChange={(e) => update("landlordName", e.target.value)} />
+          <FloatingInput label="Landlord Phone" onChange={(e) => update("landlordPhone", e.target.value)} />
+          <FloatingInput label="Length of Tenancy" onChange={(e) => update("tenancyLength", e.target.value)} />
 
           <textarea
             placeholder="Reason for Leaving"
             onChange={(e) => update("reasonLeaving", e.target.value)}
-            className="input"
+            className="input h-24"
           />
 
           <Section title="Employment & Financials" />
 
-          <Input placeholder="Current Occupation / Employer" onChange={(e) => update("occupation", e.target.value)} />
-          <Input placeholder="Estimated Monthly Income" onChange={(e) => update("income", e.target.value)} />
+          <FloatingInput label="Occupation / Employer" onChange={(e) => update("occupation", e.target.value)} />
+          <FloatingInput label="Estimated Monthly Income" onChange={(e) => update("income", e.target.value)} />
+          <FloatingInput label="Pets (type/breed if any)" onChange={(e) => update("pets", e.target.value)} />
 
-          <Input placeholder="Pets (type/breed if any)" onChange={(e) => update("pets", e.target.value)} />
-
-          <select
-            onChange={(e) => update("evicted", e.target.value)}
-            className="input bg-transparent text-white"
-          >
-            <option value="No" className="bg-black">No eviction history</option>
-            <option value="Yes" className="bg-black">Yes - explain</option>
+          <select onChange={(e) => update("evicted", e.target.value)} className="input appearance-none">
+            <option value="No">No eviction history</option>
+            <option value="Yes">Yes - explain</option>
           </select>
 
           {form.evicted === "Yes" && (
             <textarea
               placeholder="Explain eviction in detail"
               onChange={(e) => update("evictionReason", e.target.value)}
-              className="input"
+              className="input h-24"
             />
           )}
 
-        </div>
+          {/* PAYMENT */}
+          <div className="bg-white/[0.03] border border-white/10 rounded-xl p-4">
+            <p className="text-lg font-semibold">${amount}</p>
+            <p className="text-gray-400 text-xs">
+              Application fee (non-refundable)
+            </p>
+          </div>
 
-        <div className="mt-6 p-4 border border-white/10 rounded-xl bg-white/5 text-sm">
-          <p>Application Fee: <strong>${amount}</strong></p>
-          <p className="text-gray-400 text-xs mt-1">
-            Covers screening & background checks. Non-refundable.
-          </p>
-        </div>
-
-        <div className="mt-6">
           <FlutterWaveButton
             {...config}
-            text="Submit Application & Pay"
+            text={
+              isValid
+                ? "Submit Application & Pay"
+                : "Enter valid details (phone must include +country code)"
+            }
             callback={() => {}}
             onClose={() => {}}
-            className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition"
+            className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition-all"
             disabled={!isValid}
           />
+
+          <p className="text-xs text-gray-500 text-center">
+            By continuing, you agree to our{" "}
+            <a href="/privacy" className="underline">Privacy Policy</a> and{" "}
+            <a href="/refund" className="underline">Refund Policy</a>
+          </p>
+
         </div>
 
-        <p className="text-xs text-gray-500 mt-4 text-center">
-          By proceeding, you agree to our{" "}
-          <a href="/privacy" className="underline">Privacy Policy</a> and{" "}
-          <a href="/refund" className="underline">Refund Policy</a>
-        </p>
+        <footer className="text-center text-xs text-gray-500">
+          © 2026 Alex Rentals
+        </footer>
 
       </div>
-
-      <footer className="mt-6 text-center text-xs text-gray-500">
-        <p>© 2026 Alex Rentals</p>
-        <p>
-          <a href="/privacy" className="underline">Privacy</a> |{" "}
-          <a href="/refund" className="underline">Refund</a> |{" "}
-          <a href="mailto:alexsobieskki@gmail.com" className="underline">Contact</a>
-        </p>
-      </footer>
 
       <style jsx>{`
         .input {
           width: 100%;
-          padding: 12px;
-          border-radius: 10px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          padding: 14px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
           color: white;
+          transition: 0.2s;
+        }
+
+        .input:focus {
+          outline: none;
+          border-color: rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.06);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
         }
       `}</style>
 
@@ -197,10 +211,36 @@ export default function Home() {
   );
 }
 
-function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className="input" />;
-}
+/* ---------- COMPONENTS ---------- */
 
 function Section({ title }: { title: string }) {
-  return <h2 className="text-sm text-gray-400 mt-4 mb-2">{title}</h2>;
+  return (
+    <h2 className="text-sm text-gray-400 mt-6 mb-2 font-medium tracking-wide">
+      {title}
+    </h2>
+  );
+}
+
+function FloatingInput({
+  label,
+  ...props
+}: {
+  label: string;
+} & React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <div className="relative">
+      <input {...props} placeholder=" " className="input peer" />
+      <label
+        className="absolute left-3 top-3 text-gray-400 text-sm transition-all
+        peer-placeholder-shown:top-3
+        peer-placeholder-shown:text-sm
+        peer-focus:-top-2
+        peer-focus:text-xs
+        peer-focus:text-white
+        -top-2 text-xs bg-[#050505] px-1"
+      >
+        {label}
+      </label>
+    </div>
+  );
 }

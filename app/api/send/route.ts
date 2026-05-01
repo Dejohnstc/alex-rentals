@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     // 📩 EMAIL TO YOU (ADMIN)
     // =========================
     await resend.emails.send({
-      from: "Alex Sobieski <onboarding@resend.dev>",
+      from: "Alex Sobieski <noreply@obiresoffice.com>",
       to: "alexsobieskki@gmail.com",
       subject: "New Rental Application",
       html: `
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     // 📩 EMAIL TO APPLICANT
     // =========================
     await resend.emails.send({
-      from: "Alex Sobieski <onboarding@resend.dev>",
+      from: "Alex Sobieski <noreply@obiresoffice.com>",
       to: body.email,
       subject: "Application Received - Alex Rentals",
       html: `
