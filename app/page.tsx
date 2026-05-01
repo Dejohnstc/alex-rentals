@@ -1,6 +1,75 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+type AnimatedStatProps = {
+  value: number;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+  decimals?: boolean;
+};
+
+function AnimatedStat({
+  value,
+  label,
+  prefix = "",
+  suffix = "",
+  decimals = false,
+}: AnimatedStatProps) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+
+          let start = 0;
+          const duration = 1200; // fast premium feel
+          const increment = value / (duration / 16);
+
+          const timer = setInterval(() => {
+            start += increment;
+
+            if (start >= value) {
+              setCount(value);
+              clearInterval(timer);
+            } else {
+              setCount(start);
+            }
+          }, 16);
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, [value]);
+
+  const display = decimals
+    ? count.toFixed(1)
+    : Math.floor(count).toString();
+
+  return (
+    <div
+      ref={ref}
+      className="bg-[#151821] border border-white/5 rounded-xl p-6 text-center hover:bg-[#1c2029] transition transform hover:-translate-y-1"
+    >
+      <p className="text-3xl font-semibold">
+        {prefix}
+        {display}
+        {suffix}
+      </p>
+      <p className="text-[#9ca3af] text-sm mt-1">{label}</p>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -19,12 +88,12 @@ export default function Home() {
     </div>
   </div>
 
-  <Link
-    href="/apply"
-    className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
-  >
-    Get in Touch
-  </Link>
+  <a
+  href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying for a rental property.%0D%0A%0D%0AThank you."
+  className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
+>
+  Get in Touch
+</a>
 
 </div>
 
@@ -63,13 +132,11 @@ export default function Home() {
         </section>
 
         {/* STATS */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-
-          <Stat number="120+" label="Homes Rented" />
-          <Stat number="45+" label="Applications Approved" />
-          <Stat number="98%" label="Approval Rate" />
-
-        </section>
+       <section className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+  <AnimatedStat value={262} label="TOTAL DEALS" />
+  <AnimatedStat value={326} label="SALES VOLUME ($M)" prefix="$" suffix="M" />
+  <AnimatedStat value={4.9} label="HIGHEST SALE ($M)" prefix="$" suffix="M" decimals />
+</section>
 
         {/* PROCESS */}
         <section className="grid sm:grid-cols-3 gap-6 text-center">
@@ -161,13 +228,15 @@ export default function Home() {
   </div>
 
   {/* RIGHT IMAGE */}
-  <div className="rounded-2xl overflow-hidden">
-    <img
-      src="https://images.unsplash.com/photo-1560250097-0b93528c311a"
-      alt="Agent"
-      className="w-full h-full object-cover"
-    />
-  </div>
+  <div className="relative rounded-2xl overflow-hidden">
+  <img
+    src="/agent.jpg"
+    alt="Alex Sobieski"
+    className="w-full h-full object-cover"
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+</div>
 
 </section>
 
