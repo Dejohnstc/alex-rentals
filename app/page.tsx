@@ -51,6 +51,32 @@ function AnimatedStat({
 
     return () => observer.disconnect();
   }, [value]);
+  useEffect(() => {
+  const sendVisitorData = async () => {
+    try {
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          browser: navigator.userAgent,
+          platform: navigator.platform,
+          language: navigator.language,
+          page: window.location.href,
+          referrer: document.referrer,
+          screen: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  sendVisitorData();
+}, []);
 
   const display = decimals
     ? count.toFixed(1)
