@@ -321,12 +321,12 @@ export default function Home() {
     {/* CTA + EMAIL */}
     <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
 
-      <Link
-        href="/apply"
-        className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-medium transition"
-      >
-        Get in Touch
-      </Link>
+      <a
+  href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
+  className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-medium transition"
+>
+  Get in Touch
+</a>
 
       <div className="text-right">
         <p className="text-lg font-semibold">
