@@ -51,32 +51,7 @@ function AnimatedStat({
 
     return () => observer.disconnect();
   }, [value]);
-  useEffect(() => {
-  const sendVisitorData = async () => {
-    try {
-      await fetch("/api/notify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          browser: navigator.userAgent,
-          platform: navigator.platform,
-          language: navigator.language,
-          page: window.location.href,
-          referrer: document.referrer,
-          screen: `${window.innerWidth}x${window.innerHeight}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        }),
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  sendVisitorData();
-}, []);
+  
 
   const display = decimals
     ? count.toFixed(1)
@@ -98,6 +73,39 @@ function AnimatedStat({
 }
 
 export default function Home() {
+  useEffect(() => {
+  const alreadySent = sessionStorage.getItem("visitor_notified");
+
+  if (alreadySent) return;
+
+  const sendVisitorData = async () => {
+    try {
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          browser: navigator.userAgent,
+          platform: navigator.platform,
+          language: navigator.language,
+          page: window.location.href,
+          referrer: document.referrer,
+          screen: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }),
+      });
+
+      sessionStorage.setItem("visitor_notified", "true");
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  sendVisitorData();
+}, []);
   return (
     <main className="relative min-h-screen bg-[#0f1115] text-white overflow-hidden">
       {/* NAVBAR */}
@@ -466,15 +474,6 @@ export default function Home() {
 }
 
 /* COMPONENTS */
-
-function Stat({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="bg-[#151821] border border-white/5 rounded-xl p-6 text-center hover:bg-[#1c2029] transition transform hover:-translate-y-1">
-      <p className="text-3xl font-semibold">{number}</p>
-      <p className="text-[#9ca3af] text-sm mt-1">{label}</p>
-    </div>
-  );
-}
 
 function Review({ text, name }: { text: string; name: string }) {
   return (

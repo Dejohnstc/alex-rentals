@@ -9,7 +9,14 @@ export async function POST(req: Request) {
 
     const tx_ref = body.tx_ref;
 
-    // 🔐 VERIFY PAYMENT WITH FLUTTERWAVE
+    if (!tx_ref) {
+      return NextResponse.json(
+        { error: "Missing transaction reference" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ VERIFY PAYMENT
     const verify = await fetch(
       `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${tx_ref}`,
       {
@@ -20,14 +27,28 @@ export async function POST(req: Request) {
       }
     );
 
-    const data = await verify.json();
+    const verifyData = await verify.json();
 
-    if (data.status !== "success" || data.data.status !== "successful") {
-      return NextResponse.json({ error: "Payment not verified" }, { status: 400 });
+    console.log("FLW VERIFY:", verifyData);
+
+    // ✅ SAFE CHECK
+    const paymentStatus = verifyData?.data?.status;
+
+    if (
+      verifyData?.status !== "success" ||
+      paymentStatus !== "successful"
+    ) {
+      return NextResponse.json(
+        {
+          error: "Payment verification failed",
+          flutterwave: verifyData,
+        },
+        { status: 400 }
+      );
     }
 
     // =========================
-    // 📩 EMAIL TO YOU (ADMIN)
+    // 📩 EMAIL TO ADMIN
     // =========================
     await resend.emails.send({
       from: "Alex Sobieski <noreply@obiresoffice.com>",
@@ -36,6 +57,7 @@ export async function POST(req: Request) {
       html: `
         <div style="font-family: Arial, sans-serif; line-height:1.6;">
           <h2>New Rental Application</h2>
+
           <p><strong>Name:</strong> ${body.name}</p>
           <p><strong>Email:</strong> ${body.email}</p>
           <p><strong>Phone:</strong> ${body.phone}</p>
@@ -63,22 +85,24 @@ export async function POST(req: Request) {
           <p>Hi ${body.name},</p>
 
           <p>
-            Thank you for submitting your rental application. Your application fee has been received successfully.
+            Thank you for submitting your rental application.
+            Your application fee has been received successfully.
           </p>
 
           <p>
-            Our team will review your application and get back to you shortly.
+            Our team will review your application and contact you shortly.
           </p>
 
           <div style="background:#f5f5f5; padding:15px; border-radius:8px; margin-top:15px;">
             <p><strong>Application Summary:</strong></p>
+
             <p>Name: ${body.name}</p>
             <p>Email: ${body.email}</p>
             <p>Phone: ${body.phone}</p>
           </div>
 
           <p style="margin-top:20px;">
-            If you have any questions, feel free to reply to this email.
+            If you have questions, simply reply to this email.
           </p>
 
           <p>
@@ -89,10 +113,18 @@ export async function POST(req: Request) {
       `,
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+    });
 
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    console.error("SEND ERROR:", error);
+
+    return NextResponse.json(
+      {
+        error: "Something went wrong",
+      },
+      { status: 500 }
+    );
   }
 }
