@@ -74,14 +74,25 @@ function AnimatedStat({
 
 export default function Home() {
   useEffect(() => {
-  const alreadySent = sessionStorage.getItem("visitor_notified");
 
-  if (alreadySent) return;
+  // ✅ HARD LOCK IMMEDIATELY
+  if (sessionStorage.getItem("visitor_notified")) {
+    return;
+  }
+
+  // ✅ SET BEFORE FETCH
+  sessionStorage.setItem(
+    "visitor_notified",
+    "true"
+  );
 
   const sendVisitorData = async () => {
+
     try {
+
       await fetch("/api/notify", {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -93,18 +104,27 @@ export default function Home() {
           page: window.location.href,
           referrer: document.referrer,
           screen: `${window.innerWidth}x${window.innerHeight}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          timezone:
+            Intl.DateTimeFormat()
+              .resolvedOptions()
+              .timeZone,
         }),
       });
 
-      sessionStorage.setItem("visitor_notified", "true");
+    } catch (err: unknown) {
 
-    } catch (err) {
       console.log(err);
+
+      // ❌ OPTIONAL:
+      // remove lock if request fails
+      sessionStorage.removeItem(
+        "visitor_notified"
+      );
     }
   };
 
   sendVisitorData();
+
 }, []);
   return (
     <main className="relative min-h-screen bg-[#0f1115] text-white overflow-hidden">
