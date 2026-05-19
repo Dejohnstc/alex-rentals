@@ -162,7 +162,7 @@ export default function Home() {
       <div className="relative max-w-6xl mx-auto px-6 py-16 space-y-24">
 
         {/* HERO */}
-        <section className="relative h-[90vh] flex items-center justify-center text-center overflow-hidden">
+        <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
 
   {/* 🔥 BACKGROUND IMAGE */}
   <div className="absolute inset-0">
@@ -483,9 +483,138 @@ export default function Home() {
 </section>
 
         {/* FOOTER */}
-        <footer className="text-center text-xs text-[#6b7280] pt-6 border-t border-white/5">
-          © 2026 Alex Rentals • Secure Rental Applications
-        </footer>
+      <footer className="border-t border-white/5 pt-10 pb-8 mt-10">
+
+  <div className="max-w-6xl mx-auto px-6">
+
+    {/* TOP */}
+    <div className="grid md:grid-cols-3 gap-10">
+
+      {/* BRAND */}
+      <div className="space-y-4">
+
+        <div className="flex items-center gap-3">
+
+          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
+            AS
+          </div>
+
+          <div>
+
+            <p className="font-semibold">
+              Alex Rentals
+            </p>
+
+            <p className="text-xs text-[#9ca3af]">
+              Premium Rental Applications
+            </p>
+
+          </div>
+
+        </div>
+
+        <p className="text-sm text-[#9ca3af] leading-relaxed max-w-sm">
+          Secure and professional rental application
+          services designed to simplify the leasing process.
+        </p>
+
+      </div>
+
+      {/* NAVIGATION */}
+      <div>
+
+        <p className="font-semibold mb-4">
+          Navigation
+        </p>
+
+        <div className="flex flex-col gap-3 text-sm text-[#9ca3af]">
+
+          <Link href="/">
+            Home
+          </Link>
+
+          <Link href="/apply">
+            Apply
+          </Link>
+
+          <Link href="/about">
+            About
+          </Link>
+
+          <Link href="/privacy">
+            Privacy Policy
+          </Link>
+
+          <Link href="/refund">
+            Refund Policy
+          </Link>
+
+          <Link href="/terms">
+            Terms & Conditions
+          </Link>
+
+        </div>
+
+      </div>
+
+      {/* CONTACT */}
+      <div>
+
+        <p className="font-semibold mb-4">
+          Contact
+        </p>
+
+        <div className="space-y-3 text-sm text-[#9ca3af]">
+
+          <p>
+            alexsobieskki@gmail.com
+          </p>
+
+          <p>
+            Available for rental inquiries
+          </p>
+
+          <a
+            href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry"
+            className="inline-block mt-2 bg-[#d4af37] text-black px-5 py-3 rounded-lg font-medium hover:bg-[#c9a531] transition"
+          >
+            Get in Touch
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* BOTTOM */}
+    <div className="border-t border-white/5 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#6b7280]">
+
+      <p>
+        © 2026 Alex Rentals. All rights reserved.
+      </p>
+
+      <div className="flex items-center gap-4">
+
+        <span>
+          Secure Payments
+        </span>
+
+        <span>
+          Protected Data
+        </span>
+
+        <span>
+          Verified Process
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
 
       </div>
 

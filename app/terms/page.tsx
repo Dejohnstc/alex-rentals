@@ -1,8 +1,8 @@
-export default function Refund() {
+export default function TermsPage() {
   return (
     <main className="min-h-screen bg-[#0f1115] text-white px-6 py-20">
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
 
         {/* HEADER */}
         <div className="mb-12">
@@ -12,7 +12,7 @@ export default function Refund() {
           </p>
 
           <h1 className="text-5xl font-serif mt-3">
-            Refund Policy
+            Terms & Conditions
           </h1>
 
           <div className="h-[2px] w-20 bg-[#d4af37] mt-5" />
@@ -29,13 +29,13 @@ export default function Refund() {
           <div className="space-y-3">
 
             <p>
-              Alex Rentals maintains a strict refund policy regarding
-              rental application processing fees.
+              By accessing and using Alex Rentals,
+              you agree to comply with these Terms & Conditions.
             </p>
 
             <p>
-              By submitting payment through this website,
-              you acknowledge and agree to the terms outlined below.
+              These terms govern the use of our website,
+              rental application services, and payment systems.
             </p>
 
           </div>
@@ -43,18 +43,16 @@ export default function Refund() {
           <div className="space-y-3">
 
             <h2 className="text-2xl font-semibold text-white">
-              Non-Refundable Fees
+              Rental Applications
             </h2>
 
             <p>
-              All rental application fees are considered final
-              and non-refundable once submitted.
+              Submission of a rental application does not guarantee
+              approval, tenancy, or housing placement.
             </p>
 
             <p>
-              Fees are used to cover administrative costs,
-              verification procedures, screening processes,
-              and application review services.
+              All applicants must provide accurate and truthful information.
             </p>
 
           </div>
@@ -62,20 +60,36 @@ export default function Refund() {
           <div className="space-y-3">
 
             <h2 className="text-2xl font-semibold text-white">
-              Duplicate Payments
+              Payment Terms
             </h2>
 
             <p>
-              Refunds may be considered in cases involving:
+              Application processing fees are required before
+              review and screening can begin.
             </p>
+
+            <p>
+              All approved payments are considered final
+              and subject to our Refund Policy.
+            </p>
+
+          </div>
+
+          <div className="space-y-3">
+
+            <h2 className="text-2xl font-semibold text-white">
+              User Responsibilities
+            </h2>
 
             <ul className="list-disc pl-6 space-y-2 text-[#9ca3af]">
 
-              <li>Duplicate transactions</li>
+              <li>Provide truthful application information</li>
 
-              <li>Verified billing errors</li>
+              <li>Use the website lawfully</li>
 
-              <li>Technical processing failures</li>
+              <li>Avoid fraudulent payment activity</li>
+
+              <li>Maintain respectful communication</li>
 
             </ul>
 
@@ -84,12 +98,13 @@ export default function Refund() {
           <div className="space-y-3">
 
             <h2 className="text-2xl font-semibold text-white">
-              Processing Errors
+              Limitation of Liability
             </h2>
 
             <p>
-              If you believe a payment was processed incorrectly,
-              please contact us immediately for review and investigation.
+              Alex Rentals is not responsible for losses,
+              delays, or damages arising from application decisions,
+              third-party payment providers, or technical interruptions.
             </p>
 
           </div>
@@ -97,12 +112,12 @@ export default function Refund() {
           <div className="space-y-3">
 
             <h2 className="text-2xl font-semibold text-white">
-              Chargebacks
+              Modifications
             </h2>
 
             <p>
-              Unauthorized chargebacks or payment disputes may result
-              in suspension of application processing and further review.
+              We reserve the right to modify these Terms & Conditions
+              at any time without prior notice.
             </p>
 
           </div>
@@ -114,7 +129,7 @@ export default function Refund() {
             </h2>
 
             <p>
-              For refund-related questions or support:
+              For questions regarding these terms:
             </p>
 
             <p className="text-[#d4af37] font-medium">
