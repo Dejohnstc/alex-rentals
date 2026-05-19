@@ -129,31 +129,120 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#0f1115] text-white overflow-hidden">
       {/* NAVBAR */}
-<div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-[#3a2f25]/80 border-b border-white/10">
+<div className="fixed top-0 left-0 w-full z-50">
 
-  <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+  {/* GLASS BACKDROP */}
+  <div className="absolute inset-0 bg-[#241c16]/75 backdrop-blur-2xl border-b border-white/10" />
 
-    {/* LEFT */}
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-semibold">
-        AS
+  {/* GOLD TOP LINE */}
+  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-transparent" />
+
+  <div className="relative max-w-7xl mx-auto px-6">
+
+    <div className="h-20 flex items-center justify-between">
+
+      {/* LEFT SIDE */}
+      <div className="flex items-center gap-4">
+
+        {/* PREMIUM LOGO */}
+        <div className="relative">
+
+          <div className="absolute inset-0 bg-[#d4af37]/20 blur-xl rounded-full" />
+
+          <div className="relative w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center overflow-hidden">
+
+            <span className="text-sm font-semibold tracking-wider">
+              AS
+            </span>
+
+          </div>
+
+        </div>
+
+        {/* BRANDING */}
+        <div className="leading-tight">
+
+          <p className="text-[10px] tracking-[0.25em] text-[#9ca3af] uppercase">
+            Redfin Principal Agent
+          </p>
+
+          <h2 className="text-lg font-semibold tracking-wide">
+            Alex Sobieski
+          </h2>
+
+        </div>
+
       </div>
 
-      <div>
-        <p className="text-xs text-gray-300">REDFIN PRINCIPAL AGENT</p>
-        <p className="font-semibold">Alex Sobieski</p>
+      {/* CENTER NAV */}
+      <div className="hidden md:flex items-center gap-8 text-sm text-[#d1d5db]">
+
+        <Link
+          href="/"
+          className="hover:text-white transition"
+        >
+          Home
+        </Link>
+
+        <Link
+          href="/apply"
+          className="hover:text-white transition"
+        >
+          Apply
+        </Link>
+
+        <Link
+          href="/resources"
+          className="hover:text-white transition"
+        >
+          Resources
+        </Link>
+
+        <Link
+          href="/about"
+          className="hover:text-white transition"
+        >
+          About
+        </Link>
+
       </div>
+
+      {/* RIGHT SIDE */}
+      <div className="flex items-center gap-4">
+
+        {/* RATING */}
+        <div className="hidden lg:flex items-center gap-2 text-sm">
+
+          <div className="flex text-[#d4af37]">
+            ★★★★★
+          </div>
+
+          <span className="text-[#9ca3af]">
+            Trusted Agent
+          </span>
+
+        </div>
+
+        {/* CTA */}
+        <a
+          href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
+          className="group relative overflow-hidden bg-[#d4af37] text-black px-6 py-3 rounded-xl font-semibold transition duration-300 hover:scale-[1.02]"
+        >
+
+          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition" />
+
+          <span className="relative">
+            Get in Touch
+          </span>
+
+        </a>
+
+      </div>
+
     </div>
 
-    {/* RIGHT */}
-    <a
-      href="mailto:alexsobieskki@gmail.com?subject=Rental Inquiry&body=Hello Alex,%0D%0A%0D%0AI am interested in applying."
-      className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-medium transition"
-    >
-      Get in Touch
-    </a>
-
   </div>
+
 </div>
 
       {/* BACKGROUND (MATURE GRADIENT) */}
