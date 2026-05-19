@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -33,13 +32,12 @@ export default function RootLayout({
 
       <head>
 
-        {/* ✅ GOOGLE ADSENSE VERIFICATION */}
-        <Script
+        {/* GOOGLE ADSENSE */}
+        <script
           async
-          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8256382899629440"
           crossOrigin="anonymous"
-        />
+        ></script>
 
       </head>
 
