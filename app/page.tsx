@@ -571,6 +571,82 @@ export default function Home() {
 
 </section>
 
+<section className="space-y-8">
+
+  <div className="flex items-end justify-between flex-wrap gap-4">
+
+    <div>
+
+      <p className="text-sm tracking-widest text-[#9ca3af] uppercase">
+        Resources
+      </p>
+
+      <h2 className="text-4xl font-serif mt-2">
+        Rental Insights & Guides
+      </h2>
+
+    </div>
+
+    <Link
+      href="/resources"
+      className="text-[#d4af37]"
+    >
+      View All →
+    </Link>
+
+  </div>
+
+  <div className="grid md:grid-cols-3 gap-6">
+
+    <Link
+      href="/resources/rental-documents"
+      className="bg-[#151821] border border-white/5 rounded-2xl p-6 hover:border-[#d4af37]/30 transition"
+    >
+
+      <p className="text-sm text-[#9ca3af]">
+        Rental Tips
+      </p>
+
+      <h3 className="text-2xl font-semibold mt-3">
+        Documents Needed Before Applying
+      </h3>
+
+    </Link>
+
+    <Link
+      href="/resources/credit-score-rentals"
+      className="bg-[#151821] border border-white/5 rounded-2xl p-6 hover:border-[#d4af37]/30 transition"
+    >
+
+      <p className="text-sm text-[#9ca3af]">
+        Credit Guide
+      </p>
+
+      <h3 className="text-2xl font-semibold mt-3">
+        How Credit Scores Affect Rentals
+      </h3>
+
+    </Link>
+
+    <Link
+      href="/resources/first-time-renters"
+      className="bg-[#151821] border border-white/5 rounded-2xl p-6 hover:border-[#d4af37]/30 transition"
+    >
+
+      <p className="text-sm text-[#9ca3af]">
+        Beginner Guide
+      </p>
+
+      <h3 className="text-2xl font-semibold mt-3">
+        Tips for First-Time Renters
+      </h3>
+
+    </Link>
+
+  </div>
+
+</section>
+
         {/* FOOTER */}
       <footer className="border-t border-white/5 pt-10 pb-8 mt-10">
 
