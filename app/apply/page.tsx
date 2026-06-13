@@ -211,7 +211,7 @@ console.log("PHONE:", form.phone);
 
   customer: {
     email: form.email,
-    name: form.fullName,
+   name: "ZZZ TEST NAME",
     phone_number: form.phone,
   },
 
