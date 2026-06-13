@@ -190,7 +190,9 @@ emergencyAddress: "",
   );
 
 };
-
+console.log("FULL NAME:", form.fullName);
+console.log("EMAIL:", form.email);
+console.log("PHONE:", form.phone);
   // ✅ FLUTTERWAVE CONFIG
  const config = {
 
