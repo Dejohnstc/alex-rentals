@@ -1,7 +1,7 @@
 export const agent = {
   name: "Alex Sobieski",
   company: "Alex Rentals",
-  email: "redfin@alexsobieski.com",
+  email: "redfin@alexsobeiski.com",
   phone: "(555) 555-5555",
   domain: "alex-rentals.live",
 
