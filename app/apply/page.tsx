@@ -194,38 +194,25 @@ console.log("FULL NAME:", form.fullName);
 console.log("EMAIL:", form.email);
 console.log("PHONE:", form.phone);
   // ✅ FLUTTERWAVE CONFIG
- const config = {
-
-  public_key:
-    process.env
-      .NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY || "",
-
-  tx_ref,
-
-  amount: 1,
-
-  currency: "USD",
-
-  payment_options:
-    "card,applepay,banktransfer,alipay",
-
-  customer: {
-    email: form.email,
-   name: "form.fullname",
-    phone_number: form.phone,
-  },
-
-  // ✅ PASS USER DATA THROUGH URL
-  redirect_url:
-  "https://alex-rentals.live/success",
-  customizations: {
-    title: "Rental Application Fee",
-
-    description: "Apartment Screening",
-
-    logo: "https://alex-rentals.live/logo.png",
-  },
-};
+ // ✅ FIXED FLUTTERWAVE CONFIG
+  const config = {
+    public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY || "",
+    tx_ref,
+    amount: 1,
+    currency: "USD",
+    payment_options: "card,applepay,banktransfer,alipay",
+    customer: {
+      email: form.email,
+      name: form.fullName, // ✅ FIX: Removed quotes and fixed casing to match your Form state type
+      phone_number: form.phone,
+    },
+    redirect_url: "https://alex-rentals.live/success",
+    customizations: {
+      title: "Rental Application Fee",
+      description: "Apartment Screening",
+      logo: "https://alex-rentals.live/logo.png",
+    },
+  };
 
   const progress = (step / 4) * 100;
 
