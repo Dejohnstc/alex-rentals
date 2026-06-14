@@ -202,7 +202,7 @@ console.log("PHONE:", form.phone);
 
   tx_ref,
 
-  amount: 54,
+  amount: 1,
 
   currency: "USD",
 
@@ -686,7 +686,7 @@ tenancy experience and housing background.
     <div className="text-center">
 
       <p className="text-2xl font-bold">
-        $54
+        $1
       </p>
 
       <p className="text-gray-400 text-xs">
