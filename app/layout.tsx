@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import { agent } from "@/config/agent";
-import { Geist, Geist_Mono } from "next/font/google";
+// Replace next/font with @fontsource
+import "@fontsource/geist/100.css";
+import "@fontsource/geist/200.css";
+import "@fontsource/geist/300.css";
+import "@fontsource/geist/400.css";
+import "@fontsource/geist/500.css";
+import "@fontsource/geist/600.css";
+import "@fontsource/geist/700.css";
+import "@fontsource/geist/800.css";
+import "@fontsource/geist/900.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/600.css";
+import "@fontsource/geist-mono/700.css";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-    title: `${agent.company} | Application Payment`,
+  title: `${agent.company} | Application Payment`,
   description: `Secure rental application fee payment for ${agent.company}`,
 };
 
@@ -24,30 +27,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-
+    <html lang="en" className="h-full antialiased">
       <head>
-
         {/* GOOGLE ADSENSE */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8256382899629440"
           crossOrigin="anonymous"
         ></script>
-
       </head>
-
-      <body className="min-h-full flex flex-col">
-
+      <body className="min-h-full flex flex-col font-sans">
         {children}
-
       </body>
-
     </html>
   );
 }

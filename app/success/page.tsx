@@ -43,94 +43,71 @@ function SuccessContent() {
         `application_sent_${tx_ref}`
       );
 
-    const sendApplication =
-      async () => {
+    const sendApplication = async () => {
+  // ✅ Better way: Check if payment was actually completed
+  // Flutterwave redirects after successful payment, so we can check:
+  // 1. If we have a tx_ref (always present)
+  // 2. If we haven't sent it yet
+  // 3. If application data exists
+  
+  if (hasSent.current || alreadySent) {
+    return;
+  }
 
-        if (
-          status !== "successful" ||
-          hasSent.current ||
-          alreadySent
-        ) {
-          return;
-        }
+  if (!application) {
+    setError("Application data not found.");
+    return;
+  }
 
-        if (!application) {
+  // ✅ Don't rely on status parameter - just check if we have tx_ref
+  // If you're on this page with a tx_ref, it's likely from a payment attempt
+  if (!tx_ref) {
+    setError("No transaction reference found.");
+    return;
+  }
 
-          setError(
-            "Application data not found."
-          );
+  hasSent.current = true;
+  setSending(true);
 
-          return;
-        }
+  try {
+    // ✅ Optional: Verify payment with Flutterwave before submitting
+    const verifyRes = await fetch(`/api/verify-payment?tx_ref=${tx_ref}`);
+    const verification = await verifyRes.json();
+    
+    if (!verification.success) {
+      throw new Error("Payment verification failed");
+    }
 
-        hasSent.current = true;
+    const res = await fetch("/api/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...application,
+        tx_ref,
+        payment_status: verification.status, // Include payment status
+      }),
+    });
 
-        setSending(true);
+    const data = await res.json();
+    console.log("SEND RESPONSE:", data);
 
-        try {
+    if (!res.ok) {
+      throw new Error(data.error || "Submission failed");
+    }
 
-          const res =
-            await fetch(
-              "/api/send",
-              {
-                method: "POST",
+    sessionStorage.setItem(`application_sent_${tx_ref}`, "true");
+    setSent(true);
+    localStorage.removeItem("rental_application");
 
-                headers: {
-                  "Content-Type":
-                    "application/json",
-                },
-
-                body: JSON.stringify({
-                  ...application,
-                  tx_ref,
-                }),
-              }
-            );
-
-          const data =
-            await res.json();
-
-          console.log(
-            "SEND RESPONSE:",
-            data
-          );
-
-          if (!res.ok) {
-
-            throw new Error(
-              data.error ||
-              "Submission failed"
-            );
-          }
-
-          sessionStorage.setItem(
-            `application_sent_${tx_ref}`,
-            "true"
-          );
-
-          setSent(true);
-
-          // OPTIONAL CLEANUP
-          localStorage.removeItem(
-            "rental_application"
-          );
-
-        } catch (err) {
-
-          console.error(err);
-
-          setError(
-            err instanceof Error
-              ? err.message
-              : "Submission failed"
-          );
-
-        } finally {
-
-          setSending(false);
-
-        }
-      };
+  } catch (err) {
+    console.error(err);
+    setError(err instanceof Error ? err.message : "Submission failed");
+  } finally {
+    setSending(false);
+  }
+};
 
     sendApplication();
 

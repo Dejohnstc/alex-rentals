@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { FlutterWaveButton } from "flutterwave-react-v3";
+
 
 type Form = {
   fullName: string;
@@ -193,27 +193,48 @@ emergencyAddress: "",
 console.log("FULL NAME:", form.fullName);
 console.log("EMAIL:", form.email);
 console.log("PHONE:", form.phone);
-  // ✅ FLUTTERWAVE CONFIG
- // ✅ FIXED FLUTTERWAVE CONFIG
-  const config = {
-    public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY || "",
-    tx_ref,
-    amount: 1,
-    currency: "USD",
-    payment_options: "card,applepay,banktransfer,alipay",
-    customer: {
-      email: form.email,
-      name: form.fullName, // ✅ FIX: Removed quotes and fixed casing to match your Form state type
-      phone_number: form.phone,
-    },
-    redirect_url: "https://alex-rentals.live/success",
-    customizations: {
-      title: "Rental Application Fee",
-      description: "Apartment Screening",
-      logo: "https://alex-rentals.live/logo.png",
-    },
-  };
-
+  
+ // NEW: Handle payment submission
+ // NEW: Handle payment submission
+const handlePayment = async () => {
+  setLoading(true);
+  
+  // Generate a unique reference (use your existing pattern or this)
+  const reference = `rent_${Date.now()}_${crypto.randomUUID()}`;
+  
+  try {
+    // Call your backend API
+    const response = await fetch('/api/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: 1, // Your application fee
+        email: form.email,
+        name: form.fullName,
+        reference: reference,
+      }),
+    });
+    
+    const data = await response.json();
+    
+    if (data.url) {
+      // Save application before redirect
+      localStorage.setItem("rental_application", JSON.stringify(form));
+      localStorage.setItem("payment_reference", reference);
+      
+      // Redirect to Flutterwave payment page
+      window.location.href = data.url;
+    } else {
+      throw new Error('No payment URL received');
+    }
+  } catch (error) {
+    console.error('Payment error:', error);
+    alert('Failed to initialize payment. Please try again.');
+    setLoading(false);
+  }
+};
   const progress = (step / 4) * 100;
 
   return (
@@ -667,46 +688,22 @@ tenancy experience and housing background.
   </div>
 )}
 
-         {step === 4 && (
-  <>
+   {step === 4 && (
+        <>
+          <div className="text-center">
+            <p className="text-2xl font-bold">$1</p>
+            <p className="text-gray-400 text-xs">Application fee</p>
+          </div>
 
-    <div className="text-center">
-
-      <p className="text-2xl font-bold">
-        $1
-      </p>
-
-      <p className="text-gray-400 text-xs">
-        Application fee
-      </p>
-
-    </div>
-
-    <div
-      onClick={saveApplication}
-    >
-
-      <FlutterWaveButton
-        {...config}
-
-        text={
-          loading
-            ? "Processing..."
-            : "Pay & Submit"
-        }
-
-        callback={() => {
-          setLoading(false);
-        }}
-
-        onClose={() => {
-          setLoading(false);
-        }}
-
-        className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition"
-      />
-
-    </div>
+          <div onClick={saveApplication}>
+            <button
+              onClick={handlePayment}
+              disabled={loading}
+              className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Processing..." : "Pay & Submit"}
+            </button>
+          </div>
 
     {/* ✅ TERMS NOTICE */}
     <div className="mt-5 bg-white/5 border border-white/10 rounded-2xl p-4">
