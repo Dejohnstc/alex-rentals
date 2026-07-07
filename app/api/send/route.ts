@@ -64,7 +64,7 @@ export async function POST(req: Request) {
         method: "GET",
 
         headers: {
-          Authorization: `Bearer ${process.env.FLW_SECRET_KEY}`,
+          Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
         },
       }
     );
