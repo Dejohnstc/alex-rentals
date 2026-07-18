@@ -60,9 +60,13 @@ function SuccessContent() {
           }),
         });
 
-        const data = await res.json();
+        const text = await res.text();
 
-        console.log("SEND RESPONSE:", data);
+console.log("RAW RESPONSE:", text);
+
+const data = JSON.parse(text);
+
+        
 
         if (!res.ok) {
           throw new Error(data.error || "Submission failed");

@@ -25,8 +25,16 @@ export async function POST(req: Request) {
       body
     );
 
-    const tx_ref = body.tx_ref;
-    const applicationId =
+  const tx_ref = body.tx_ref;
+
+if (!tx_ref) {
+  return NextResponse.json(
+    { error: "Missing transaction reference" },
+    { status: 400 }
+  );
+}
+
+const applicationId =
   tx_ref.slice(-8).toUpperCase();
 
     console.log(
@@ -54,9 +62,7 @@ export async function POST(req: Request) {
     // VERIFY FLUTTERWAVE PAYMENT
     // =========================
 
-    console.log(
-      "🔍 VERIFYING PAYMENT..."
-    );
+  console.log("STEP 1 - Starting payment verification");
 
     const verify = await fetch(
       `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${tx_ref}`,
@@ -68,7 +74,7 @@ export async function POST(req: Request) {
         },
       }
     );
-
+console.log("STEP 2 - Flutterwave responded");
     const verifyData =
       await verify.json();
 
@@ -76,7 +82,8 @@ export async function POST(req: Request) {
       "💳 FLW VERIFY RESPONSE:",
       verifyData
     );
-
+console.log("STEP 3 - Verify JSON parsed");
+console.log(verifyData);
     const paymentStatus =
       verifyData?.data?.status;
 
@@ -110,7 +117,7 @@ export async function POST(req: Request) {
     // =========================
 
     if (
-      !body.name ||
+      !body.fullName ||
       !body.email
     ) {
 
@@ -150,7 +157,7 @@ export async function POST(req: Request) {
           to: agent.email,
 
           subject:
-  `🏠 New Rental Application - ${body.name}`,
+  `🏠 New Rental Application - ${body.fullName}`,
 
           html: `
 <div style="font-family:Arial,sans-serif;line-height:1.7;padding:20px;">
@@ -181,7 +188,7 @@ ${new Date().toLocaleString()}
 
 <h3>Applicant Information</h3>
 
-<p><strong>Full Name:</strong> ${body.name || "N/A"}</p>
+<p><strong>Full Name:</strong> ${body.fullName || "N/A"}</p>
 <p><strong>Credit Score:</strong> ${body.creditScore || "N/A"}</p>
 
 <p><strong>Email:</strong> ${body.email || "N/A"}</p>
@@ -300,7 +307,7 @@ ${body.evictionReason || "N/A"}
               <h2>Application Received</h2>
 
               <p>
-                Hi ${body.name},
+                Hi ${body.fullName},
               </p>
 
               <p>
@@ -341,7 +348,7 @@ we will contact you directly by email.
 
                 <p><strong>Application Summary:</strong></p>
 
-                <p>Name: ${body.name}</p>
+                <p>Name: ${body.fullName}</p>
 
                 <p>Email: ${body.email}</p>
 
