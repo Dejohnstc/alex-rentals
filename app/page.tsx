@@ -77,15 +77,26 @@ export default function Home() {
   useEffect(() => {
 
   // ✅ HARD LOCK IMMEDIATELY
-  if (sessionStorage.getItem("visitor_notified")) {
+const KEY = "visitor_notified";
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
+const lastVisit = localStorage.getItem(KEY);
+
+if (lastVisit) {
+  const lastTime = Number(lastVisit);
+
+  if (
+    !Number.isNaN(lastTime) &&
+    Date.now() - lastTime < ONE_DAY
+  ) {
     return;
   }
+}
+
+localStorage.setItem(KEY, Date.now().toString());
 
   // ✅ SET BEFORE FETCH
-  sessionStorage.setItem(
-    "visitor_notified",
-    "true"
-  );
+
 
   const sendVisitorData = async () => {
 
@@ -118,9 +129,9 @@ export default function Home() {
 
       // ❌ OPTIONAL:
       // remove lock if request fails
-      sessionStorage.removeItem(
-        "visitor_notified"
-      );
+     localStorage.removeItem(
+  "visitor_notified"
+);
     }
   };
 

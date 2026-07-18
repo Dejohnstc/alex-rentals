@@ -15,7 +15,19 @@ export async function POST(
     console.log(
       "👀 VISITOR TRACKING HIT"
     );
+const userAgent = req.headers.get("user-agent") || "";
 
+const botRegex =
+  /bot|crawl|spider|facebook|whatsapp|preview|bing|google|slurp|curl|headless|monitor|uptime|vercel/i;
+
+if (botRegex.test(userAgent)) {
+  console.log("🤖 Bot ignored:", userAgent);
+
+  return NextResponse.json({
+    success: true,
+    ignored: true,
+  });
+}
     const body =
       await req.json();
 
