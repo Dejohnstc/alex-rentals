@@ -7,7 +7,7 @@ export const agent = {
 
   title: "REDFIN AGENT",
 
-  applicationFee: 1,
+  applicationFee: 54,
 
   logoInitials: "AS",
 };

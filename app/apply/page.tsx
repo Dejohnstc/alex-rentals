@@ -210,7 +210,7 @@ const handlePayment = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        amount: 1, // Your application fee
+        amount: 54, // Your application fee
         email: form.email,
         name: form.fullName,
         reference: reference,
@@ -691,7 +691,7 @@ tenancy experience and housing background.
    {step === 4 && (
         <>
           <div className="text-center">
-            <p className="text-2xl font-bold">$1</p>
+            <p className="text-2xl font-bold">$54</p>
             <p className="text-gray-400 text-xs">Application fee</p>
           </div>
 

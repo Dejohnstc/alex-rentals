@@ -152,9 +152,11 @@ console.log(verifyData);
       const adminEmail =
         await resend.emails.send({
 
-          from: `${agent.company} <noreply@obiresoffice.com>`,
+          from: `Alex Sobieski | Redfin Agent <noreply@obiresoffice.com>`,
 
-          to: agent.email,
+replyTo: "redfin@alexsobeiski.com",
+
+to: agent.email,
 
           subject:
   `🏠 New Rental Application - ${body.fullName}`,
@@ -293,9 +295,11 @@ ${body.evictionReason || "N/A"}
       const applicantEmail =
         await resend.emails.send({
 
-          from: `${agent.company} <noreply@obiresoffice.com>`,
+         from: `Alex Sobieski | Redfin Agent <noreply@obiresoffice.com>`,
 
-          to: body.email,
+replyTo: "redfin@alexsobeiski.com",
+
+to: body.email,
 
           subject:
            
