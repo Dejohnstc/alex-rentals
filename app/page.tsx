@@ -74,70 +74,7 @@ function AnimatedStat({
 }
 
 export default function Home() {
-  useEffect(() => {
-
-  // ✅ HARD LOCK IMMEDIATELY
-const KEY = "visitor_notified";
-const ONE_DAY = 24 * 60 * 60 * 1000;
-
-const lastVisit = localStorage.getItem(KEY);
-
-if (lastVisit) {
-  const lastTime = Number(lastVisit);
-
-  if (
-    !Number.isNaN(lastTime) &&
-    Date.now() - lastTime < ONE_DAY
-  ) {
-    return;
-  }
-}
-
-localStorage.setItem(KEY, Date.now().toString());
-
-  // ✅ SET BEFORE FETCH
-
-
-  const sendVisitorData = async () => {
-
-    try {
-
-      await fetch("/api/notify", {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          browser: navigator.userAgent,
-          platform: navigator.platform,
-          language: navigator.language,
-          page: window.location.href,
-          referrer: document.referrer,
-          screen: `${window.innerWidth}x${window.innerHeight}`,
-          timezone:
-            Intl.DateTimeFormat()
-              .resolvedOptions()
-              .timeZone,
-        }),
-      });
-
-    } catch (err: unknown) {
-
-      console.log(err);
-
-      // ❌ OPTIONAL:
-      // remove lock if request fails
-     localStorage.removeItem(
-  "visitor_notified"
-);
-    }
-  };
-
-  sendVisitorData();
-
-}, []);
+ 
   return (
     <main className="relative min-h-screen bg-[#0f1115] text-white overflow-hidden">
       {/* NAVBAR */}
