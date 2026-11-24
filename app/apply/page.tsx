@@ -18,7 +18,7 @@ import {
 /* ─────────────────────────── CONFIG ─────────────────────────── */
 
 const TOTAL_STEPS = 5;
-const APPLICATION_FEE = 54;
+const APPLICATION_FEE = 1;
 const STORAGE_KEY = "rental_application";
 
 const STEP_TITLES = [
